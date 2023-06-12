@@ -6,7 +6,7 @@
 --}}
 @section('content')
 
-<form action="{{ route('productos.store')}}" method="POST">
+<form action="{{route('productos.store')}}" method="POST">
     @csrf
     <div class="mb-3 mt-3">
       <label for="" class="form-label">NOMBRE</label>

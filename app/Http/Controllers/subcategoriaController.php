@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Categoria;
-use App\Models\SubCategoria;
+use App\Models\categoria;
+use App\Models\subcategoria;
 
 class subcategoriaController extends Controller
 {
@@ -13,12 +13,10 @@ class subcategoriaController extends Controller
      */
     public function index()
     {
-        //
-        $subcategorias = SubCategoria::select('c.nombre as cnombre', 'subcategorias.*')
-                                        ->join('categorias as c', 'subcategorias.categorias_id', 'c.id')
-                                        ->where('subcategorias.estado', 1)
-                                        ->get();
-        return view('subcategorias.index', compact('subcategorias'));
+        $subcategorias = subcategoria::select('c.nombre as cnombre','subcategorias.*')
+                                       ->join('categorias as  c','subcategorias.categorias_id','c.id')
+                                       ->where('subcategorias.estado',1)->get();
+        return view('subcategorias.index',compact('subcategorias'));
     }
 
     /**
@@ -26,9 +24,8 @@ class subcategoriaController extends Controller
      */
     public function create()
     {
-        //
-        $categoria = Categoria::where('estado', 1)->get();
-        return view('subcategorias.create', compact('categoria'));
+        $categorias = categoria::where('estado',1)->get();
+        return view('subcategorias.create',compact('categorias'));
     }
 
     /**
@@ -36,13 +33,13 @@ class subcategoriaController extends Controller
      */
     public function store(Request $request)
     {
-        //
-        $subcategorias = new SubCategoria();
+        $subcategorias = new subcategoria();
         $subcategorias->nombre = $request->input('nombre');
         $subcategorias->descripcion = $request->input('descripcion');
-        $subcategorias->estado = 1;
         $subcategorias->categorias_id = $request->input('categoria');
+        $subcategorias->estado = 1;
         $subcategorias->save();
+
         return redirect(route('subcategorias.index'));
     }
 
@@ -51,7 +48,7 @@ class subcategoriaController extends Controller
      */
     public function show(string $id)
     {
-        //
+
     }
 
     /**
@@ -59,10 +56,11 @@ class subcategoriaController extends Controller
      */
     public function edit(string $id)
     {
-        //
-        $categoria = Categoria::where('estado', 1)->get();
-        $subcategorias = SubCategoria::find($id);
-        return view('subcategorias.edit', compact('categoria', 'subcategorias'));
+        $categorias = categoria::where('estado',1)->get();
+        $subcategoria = subcategoria::find($id);
+        return view('subcategorias.edit',compact('subcategoria','categorias'));
+
+
     }
 
     /**
@@ -70,12 +68,12 @@ class subcategoriaController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
-        $subcategorias = SubCategoria::find($id);
-        $subcategorias->nombre = $request->input('nombre');
-        $subcategorias->descripcion = $request->input('descripcion');
-        $subcategorias->categorias_id = $request->input('categoria');
-        $subcategorias->save();
+        $subcategoria = subcategoria::find($id);
+        $subcategoria->nombre = $request->input('nombre');
+        $subcategoria->descripcion = $request->input('descripcion');
+        $subcategoria->categorias_id = $request->input('categoria');
+        $subcategoria->save();
+
         return redirect(route('subcategorias.index'));
     }
 
@@ -84,10 +82,9 @@ class subcategoriaController extends Controller
      */
     public function destroy(string $id)
     {
-        //
-        $subcategorias = SubCategoria::find($id);
-        $subcategorias->estado = 0;
-        $subcategorias->save();
-        return redirect(route('subcategorias.index'));
+        $subcategoria = subcategoria::find($id);
+        $subcategoria->estado = 0;
+        $subcategoria->save();
+        return $resulta = "ok";
     }
 }

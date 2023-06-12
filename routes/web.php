@@ -1,10 +1,6 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\HomeController;
-use App\Http\Controllers\productosController;
-use App\Http\Controllers\categoriaController;
-use App\Http\Controllers\subcategoriaController;
 
 /*
 |--------------------------------------------------------------------------
@@ -24,6 +20,12 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-Route::resource('productos', productosController::class)->names('productos');
-Route::resource('categorias', categoriaController::class)->names('categorias');
-Route::resource('subcategorias', subcategoriaController::class)->names('subcategorias');
+
+Route::resource('productos','App\Http\Controllers\ProductoController')->names('productos');
+
+Route::resource('users', 'App\Http\Controllers\UserController')->names('users');
+
+
+Route::resource('categoria', 'App\Http\Controllers\categoriaController')->names('categorias');
+
+Route::resource('subcategoria', 'App\Http\Controllers\subcategoriaController')->names('subcategorias');

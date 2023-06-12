@@ -6,9 +6,9 @@ use Illuminate\Http\Request;
 use App\Models\Producto;
 use App\Models\categoria;
 use App\Models\subcategoria;
+use Spatie\LaravelIgnition\Solutions\SolutionProviders\RunningLaravelDuskInProductionProvider;
 
-
-class productosController extends Controller
+class ProductoController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -27,8 +27,8 @@ class productosController extends Controller
      */
     public function create()
     {
-        $categorias = categoria::where('categorias.estado',1)->get();
-        $subcategorias = subcategoria::where('subcategorias.estado',1)->get();
+        $categorias =categoria::where('categorias.estado',1)->get();
+        $subcategorias =subcategoria::where('subcategorias.estado',1)->get();
         return view('productos.create',compact('categorias','subcategorias'));
     }
 
