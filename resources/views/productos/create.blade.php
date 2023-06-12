@@ -1,10 +1,9 @@
 @extends('layouts.plantilla')
-
-
+{{--
 @section('title')
     <h1>Crear Producto</h1>
 @endsection
-
+--}}
 @section('content')
 
 <form action="{{ route('productos.store')}}" method="POST">
@@ -15,7 +14,7 @@
     </div>
     <div class="mt-3">
         <label for="" class="form-label" >PRECIO</label>
-        <input type="number" class="form-control" id="precio" name="precio" required">
+        <input type="number" class="form-control" id="precio" name="precio" required>
     </div>
     <div class="mt-3">
       <label for="" class="form-label">CANTIDAD</label>

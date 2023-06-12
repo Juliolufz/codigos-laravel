@@ -4,8 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Producto;
-use App\Models\Categoria;
-use App\Models\SubCategoria;
+use App\Models\categoria;
+use App\Models\subcategoria;
+
 
 class productosController extends Controller
 {
@@ -26,8 +27,8 @@ class productosController extends Controller
      */
     public function create()
     {
-        $categorias = Categoria::where('categorias.estado',1)->get();
-        $subcategorias = SubCategoria::where('subcategorias.estado',1)->get();
+        $categorias = categoria::where('categorias.estado',1)->get();
+        $subcategorias = subcategoria::where('subcategorias.estado',1)->get();
         return view('productos.create',compact('categorias','subcategorias'));
     }
 
@@ -93,6 +94,4 @@ class productosController extends Controller
         $producto->save();
         return $resulta = "ok";
     }
-
-
 }

@@ -22,7 +22,7 @@
           <td>{{$category->nombre}}</td>
           <td>{{$category->descripcion}}</td>
           <td>
-            <div class="row">
+            <!--<div class="row">-->
                 @can('categorias.destroy')
                     <input type="hidden" value="{{$category->id}}">
                     <span class="btn btn-danger btn-sm eliminar">Eliminar</span>
@@ -31,7 +31,7 @@
                 <a href="{{ route('categorias.edit',$category->id)}}" class="btn btn-primary btn-sm mr-3">editar</a>
                 <input type="hidden" value="{{$category->id}}">
                 @endcan
-            </div>
+            <!--</div>-->
           </td>
         </tr>
         @endforeach

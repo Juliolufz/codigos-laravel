@@ -969,26 +969,19 @@ class Builder implements BuilderContract
             $this->enforceOrderBy();
         }
 
-        $reverseDirection = function ($order) {
-            if (! isset($order['direction'])) {
-                return $order;
-            }
-
-            $order['direction'] = $order['direction'] === 'asc' ? 'desc' : 'asc';
-
-            return $order;
-        };
-
         if ($shouldReverse) {
-            $this->query->orders = collect($this->query->orders)->map($reverseDirection)->toArray();
-            $this->query->unionOrders = collect($this->query->unionOrders)->map($reverseDirection)->toArray();
+            $this->query->orders = collect($this->query->orders)->map(function ($order) {
+                $order['direction'] = $order['direction'] === 'asc' ? 'desc' : 'asc';
+
+                return $order;
+            })->toArray();
         }
 
-        $orders = ! empty($this->query->unionOrders) ? $this->query->unionOrders : $this->query->orders;
+        if ($this->query->unionOrders) {
+            return collect($this->query->unionOrders);
+        }
 
-        return collect($orders)
-            ->filter(fn ($order) => Arr::has($order, 'direction'))
-            ->values();
+        return collect($this->query->orders);
     }
 
     /**
@@ -1015,17 +1008,6 @@ class Builder implements BuilderContract
         return $this->model->unguarded(function () use ($attributes) {
             return $this->newModelInstance()->create($attributes);
         });
-    }
-
-    /**
-     * Save a new model instance with mass assignment without raising model events.
-     *
-     * @param  array  $attributes
-     * @return \Illuminate\Database\Eloquent\Model|$this
-     */
-    public function forceCreateQuietly(array $attributes = [])
-    {
-        return Model::withoutEvents(fn () => $this->forceCreate($attributes));
     }
 
     /**

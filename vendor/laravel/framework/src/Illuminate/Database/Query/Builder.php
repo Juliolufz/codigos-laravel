@@ -2793,30 +2793,17 @@ class Builder implements BuilderContract
      */
     protected function ensureOrderForCursorPagination($shouldReverse = false)
     {
-        if (empty($this->orders) && empty($this->unionOrders)) {
-            $this->enforceOrderBy();
-        }
+        $this->enforceOrderBy();
 
-        $reverseDirection = function ($order) {
-            if (! isset($order['direction'])) {
+        return collect($this->orders ?? $this->unionOrders ?? [])->filter(function ($order) {
+            return Arr::has($order, 'direction');
+        })->when($shouldReverse, function (Collection $orders) {
+            return $orders->map(function ($order) {
+                $order['direction'] = $order['direction'] === 'asc' ? 'desc' : 'asc';
+
                 return $order;
-            }
-
-            $order['direction'] = $order['direction'] === 'asc' ? 'desc' : 'asc';
-
-            return $order;
-        };
-
-        if ($shouldReverse) {
-            $this->orders = collect($this->orders)->map($reverseDirection)->toArray();
-            $this->unionOrders = collect($this->unionOrders)->map($reverseDirection)->toArray();
-        }
-
-        $orders = ! empty($this->unionOrders) ? $this->unionOrders : $this->orders;
-
-        return collect($orders)
-            ->filter(fn ($order) => Arr::has($order, 'direction'))
-            ->values();
+            });
+        })->values();
     }
 
     /**

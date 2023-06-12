@@ -24,6 +24,6 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-Route::resource('/productos', productosController::class)->names('productos');
-Route::resource('/categorias', categoriaController::class)->names('categorias');
-Route::resource('/subcategorias', subcategoriaController::class)->names('subcategorias');
+Route::resource('productos', productosController::class)->names('productos');
+Route::resource('categorias', categoriaController::class)->names('categorias');
+Route::resource('subcategorias', subcategoriaController::class)->names('subcategorias');
